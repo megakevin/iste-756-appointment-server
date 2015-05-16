@@ -14,6 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 
+import components.data.Appointment;
+
 import domain.AppointmentManager;
 
 /**
@@ -51,7 +53,7 @@ public class AppointmentService {
     @Path("appointment/{appointmentId}")
     @GET
     @Produces("application/json")
-    public String getByAppointmentId(@PathParam("appointmentId") String appointmentId)
+    public Appointment getByAppointmentId(@PathParam("appointmentId") String appointmentId)
     {
         return this.appointmentManager.getById(appointmentId);
     }

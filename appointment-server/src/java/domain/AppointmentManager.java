@@ -5,6 +5,8 @@
  */
 package domain;
 
+import components.data.*;
+
 import data.AppointmentRepository;
 
 /**
@@ -19,9 +21,8 @@ public class AppointmentManager {
         this.appointmentRepository = new AppointmentRepository();
     }
     
-    public String getById(String appointmentId)
+    public Appointment getById(String appointmentId)
     {
         return this.appointmentRepository.getById(appointmentId);
-    }
-    
+    }    
 }

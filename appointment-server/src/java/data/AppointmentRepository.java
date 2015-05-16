@@ -5,6 +5,12 @@
  */
 package data;
 
+import java.util.*;
+import java.text.*;
+import components.data.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  *
  * @author kevin
@@ -15,8 +21,20 @@ public class AppointmentRepository {
         
     }
     
-    public String getById(String appointmentId)
+    public Appointment getById(String appointmentId)
     {
-        return "This is data: " + appointmentId;
+        try
+        {
+            Appointment appointmentToReturn = new Appointment(appointmentId);
+            
+            appointmentToReturn.setApptdate(new java.sql.Date(2012, 10, 10));
+            appointmentToReturn.setAppttime(new java.sql.Time(01, 25, 00));
+
+            return appointmentToReturn;
+        }
+        catch(Exception ex)
+        {
+            return null;
+        }
     }
 }
