@@ -37,4 +37,22 @@ public class AppointmentRepository {
             return null;
         }
     }
+    
+    public Appointment getByIdReal(String appointmentId)
+    {
+        IComponentsData db = new DB();
+
+        db.initialLoad("LAMS");
+
+        List<Object> objs = db.getData("Appointment", "");
+
+        Appointment appointmentToReturn = null;
+
+        for (Object obj : objs)
+        {
+            appointmentToReturn = (Appointment)obj;
+        }
+
+        return appointmentToReturn;
+    }
 }
