@@ -37,9 +37,9 @@ public class Appointment {
      */
     @GET
     @Produces("application/json")
-    public String getJson() {
+    public String get() {
         //TODO return proper representation object
-        throw new UnsupportedOperationException();
+        return "KLK";
     }
 
     /**
