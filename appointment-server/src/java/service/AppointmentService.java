@@ -14,21 +14,27 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 
+import domain.AppointmentManager;
+
 /**
  * REST Web Service
  *
  * @author kevin
  */
 @Path("appointment")
-public class Appointment {
+public class AppointmentService {
 
     @Context
     private UriInfo context;
+    
+    private AppointmentManager appointmentManager;
 
     /**
      * Creates a new instance of Appointment
      */
-    public Appointment() {
+    public AppointmentService() 
+    {
+        this.appointmentManager = new AppointmentManager();
     }
 
     /**
@@ -40,6 +46,14 @@ public class Appointment {
     public String get() {
         //TODO return proper representation object
         return "KLK";
+    }
+    
+    @Path("appointment/{appointmentId}")
+    @GET
+    @Produces("application/json")
+    public String getByAppointmentId(@PathParam("appointmentId") String appointmentId)
+    {
+        return this.appointmentManager.getById(appointmentId);
     }
 
     /**

@@ -5,10 +5,23 @@
  */
 package domain;
 
+import data.AppointmentRepository;
+
 /**
  *
  * @author kevin
  */
 public class AppointmentManager {
+    
+    private AppointmentRepository appointmentRepository;
+    
+    public AppointmentManager() {
+        this.appointmentRepository = new AppointmentRepository();
+    }
+    
+    public String getById(String appointmentId)
+    {
+        return this.appointmentRepository.getById(appointmentId);
+    }
     
 }

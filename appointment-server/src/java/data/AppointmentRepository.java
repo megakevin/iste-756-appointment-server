@@ -10,5 +10,13 @@ package data;
  * @author kevin
  */
 public class AppointmentRepository {
+    public AppointmentRepository()
+    {
+        
+    }
     
+    public String getById(String appointmentId)
+    {
+        return "This is data: " + appointmentId;
+    }
 }
