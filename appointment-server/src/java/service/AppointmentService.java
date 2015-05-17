@@ -14,15 +14,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 
-import domain.AppointmentManager;
-import java.util.*;
 import javax.ws.rs.core.MediaType;
 import viewmodel.AppointmentModel;
+
+
+import domain.AppointmentManager;
+import java.util.List;
+
 /**
  * REST Web Service
  *
  * @author kevin
  */
+
 @Path("appointments")
 public class AppointmentService {
 
@@ -30,11 +34,14 @@ public class AppointmentService {
     private UriInfo context;
     
     private AppointmentManager appointmentManager;
+
     /**
      * Creates a new instance of Appointment
      */
-    public AppointmentService() {
-        appointmentManager = new AppointmentManager();
+    public AppointmentService() 
+    {
+        this.appointmentManager = new AppointmentManager();
+
     }
 
     /**
@@ -42,13 +49,20 @@ public class AppointmentService {
      * @return an instance of ArrayList<components.data.Appointment> 
      */
     @GET
-    //@Produces("application/json")
     @Produces({MediaType.APPLICATION_JSON}) 
     public List<AppointmentModel> get() {        
         List<AppointmentModel> appointments = appointmentManager.getAppointments();         
         return appointments;
     }
     
+    @Path("appointment/{appointmentId}")
+    @GET
+    @Produces("application/json")
+    public String getByAppointmentId(@PathParam("appointmentId") String appointmentId)
+    {       
+        return this.appointmentManager.getById(appointmentId).toString();
+    }
+
     /**
      * PUT method for updating or creating an instance of Appointment
      * @param content representation for the resource

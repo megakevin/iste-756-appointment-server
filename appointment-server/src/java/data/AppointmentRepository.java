@@ -1,51 +1,70 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package data;
-import components.data.*;
+
 import java.util.*;
+import java.text.*;
+import components.data.*;
 import viewmodel.AppointmentModel;
+
 /**
  *
  * @author kevin
  */
-public class AppointmentRepository {
+public class AppointmentRepository extends BaseRepository<Appointment>{
+    
     private IComponentsData db;
     
-    /**
-     * This constructor initializes the connection to the database
-     */
-    public AppointmentRepository(){
-        db = new DB();
-        //db.initialLoad("LAMS");
+    public AppointmentRepository()
+    {
+        this.db = new DB();
+     //   this.db.initialLoad("LAMS");
     }
     
-    /**
-     * Method for getting all the appointment from the database.
-     * @return ArrayList<Appointment>
-     */
-    public ArrayList<AppointmentModel> get(){
-       ArrayList<AppointmentModel> result = new ArrayList<AppointmentModel>();
-       List<Object> objs = db.getData("Appointment", "");      
-       for(Object obj: objs){
-           Appointment appointment = (Appointment)obj;
-           result.add(new AppointmentModel(appointment));
-       }
-       return result;
+    public List<Appointment> get(){
+        return super.get();
     }
     
-       public List<Appointment> getAppointments(){
-       List<Appointment> result = new ArrayList<>();
-       List<Object> objs = db.getData("Appointment", "");
-      // result.add(new Appointment("800",java.sql.Date.valueOf("2009-09-01"),java.sql.Time.valueOf("10:15:00")));
-       for(Object obj: objs){
-           Appointment appointment = (Appointment)obj;
-          // result.add(new AppointmentModel(appointment.getId(), appointment.getApptdate(), appointment.getAppttime()));
-           result.add(appointment);
-       }
-       return result;
+    public List<AppointmentModel> getAppointmentModels(){
+        List<AppointmentModel> appointmentModels = new ArrayList<>();
+        List<Appointment> appointments = super.get();
+        for(Appointment appointment : appointments){
+            appointmentModels.add(new AppointmentModel(appointment));
+        }
+        return appointmentModels;
+    }
+    
+    public Appointment getById(String appointmentId)
+    {
+        try
+        {
+            Appointment appointmentToReturn = new Appointment(appointmentId);
+            
+            appointmentToReturn.setApptdate(new java.sql.Date(2012, 10, 10));
+            appointmentToReturn.setAppttime(new java.sql.Time(01, 25, 00));
+
+            return appointmentToReturn;
+        }
+        catch(Exception ex)
+        {
+            return null;
+        }
+    }
+    
+    public Appointment getByIdReal(String appointmentId)
+    {
+        List<Object> objs = db.getData("Appointment", "id='" + appointmentId + "'");
+
+        Appointment appointmentToReturn = null;
+
+        for (Object obj : objs)
+        {
+            appointmentToReturn = (Appointment)obj;
+        }
+
+        return appointmentToReturn;//.toString();
     }
 }

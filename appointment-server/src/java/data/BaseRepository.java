@@ -50,7 +50,8 @@ public abstract class BaseRepository<T> implements IRepository<T> {
     public T getById(String id) {
         T result = null;
         List<Object> objs = db.getData(className, String.format("id='%s'", id));
-        result = (T)objs.get(0);
+        if(objs!=null && objs.size()>=0)
+            result = (T)objs.get(0);
         return result;
     }
 

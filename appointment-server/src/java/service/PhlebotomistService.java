@@ -14,7 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import java.util.List;
-import data.PhlebotomistRepository;
+import domain.PhlebotomistManager;
+import javax.ws.rs.core.MediaType;
 import components.data.Phlebotomist;
 /**
  * REST Web Service
@@ -23,7 +24,7 @@ import components.data.Phlebotomist;
  */
 @Path("phlebotomists")
 public class PhlebotomistService {
-    private PhlebotomistRepository phlebotomistRepository;
+    private PhlebotomistManager phlebotomistManager;
     
     
     @Context
@@ -33,7 +34,7 @@ public class PhlebotomistService {
      * Creates a new instance of PhlebotomistService
      */
     public PhlebotomistService() {
-        phlebotomistRepository = new PhlebotomistRepository();
+        phlebotomistManager = new PhlebotomistManager();
     }
 
     /**
@@ -41,11 +42,22 @@ public class PhlebotomistService {
      * @return an instance of List<Phlebotomist>
      */
     @GET
-    @Produces("application/json")
+    @Produces({MediaType.APPLICATION_JSON}) 
     public List<Phlebotomist> get() {
-        return phlebotomistRepository.get();
+        return phlebotomistManager.getPhlebotomists();
     }
-
+    
+    /**
+     * Gets the Phlebotomist that match the given Id
+     * @param phlebotomistId
+     * @return Phlebotomist
+     */
+    @GET
+    @Path("{phlebotomistId}")
+    @Produces({MediaType.APPLICATION_JSON}) 
+    public Phlebotomist get(@PathParam("phlebotomistId") String phlebotomistId){
+        return phlebotomistManager.getPhlebotomistById(phlebotomistId);
+    }
     /**
      * PUT method for updating or creating an instance of PhlebotomistService
      * @param content representation for the resource

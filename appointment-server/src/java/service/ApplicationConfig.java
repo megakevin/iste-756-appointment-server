@@ -29,6 +29,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(data.PatientServiceCenterService.class);
         resources.add(service.AppointmentService.class);
         resources.add(service.PatientService.class);
         resources.add(service.PhlebotomistService.class);
