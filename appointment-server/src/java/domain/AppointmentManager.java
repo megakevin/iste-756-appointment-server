@@ -14,6 +14,7 @@ import viewmodel.AppointmentModel;
 import components.data.*;
 
 import data.AppointmentRepository;
+import data.IRepository;
 import java.util.List;
 
 
@@ -22,7 +23,7 @@ import java.util.List;
  * @author kevin
  */
 public class AppointmentManager {
-    private AppointmentRepository apointmentRepo; 
+    private IRepository<Appointment> apointmentRepo; 
    
     /**
     * Default constructor. It handle the initialization of the appointment repository
