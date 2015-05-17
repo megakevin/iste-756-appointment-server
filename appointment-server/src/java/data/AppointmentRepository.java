@@ -41,41 +41,7 @@ public class AppointmentRepository extends BaseRepository<Appointment>{
         return appointmentModels;
     }
     
-
-    
-    @Override
-    public Appointment getById(String appointmentId)
-    {
-        try
-        {
-            Appointment appointmentToReturn = new Appointment(appointmentId);
-            
-            appointmentToReturn.setApptdate(new java.sql.Date(2012, 10, 10));
-            appointmentToReturn.setAppttime(new java.sql.Time(01, 25, 00));
-
-            return appointmentToReturn;
-        }
-        catch(Exception ex)
-        {
-            return null;
-        }
-    }
-    
     public AppointmentModel getAppointmentModelById(String appointmentId){
         return new AppointmentModel(super.getById(appointmentId));
-    }
-    
-    public Appointment getByIdReal(String appointmentId)
-    {
-        List<Object> objs = db.getData("Appointment", "id='" + appointmentId + "'");
-
-        Appointment appointmentToReturn = null;
-
-        for (Object obj : objs)
-        {
-            appointmentToReturn = (Appointment)obj;
-        }
-
-        return appointmentToReturn;//.toString();
     }
 }
