@@ -22,28 +22,31 @@ import java.util.List;
  * @author kevin
  */
 public class AppointmentManager {
-   private AppointmentRepository apointmentRepo; 
+    private AppointmentRepository apointmentRepo; 
    
-   /**
+    /**
     * Default constructor. It handle the initialization of the appointment repository
     */
-   public AppointmentManager(){
-       apointmentRepo = new AppointmentRepository();               
-   }
+    public AppointmentManager(){
+        apointmentRepo = new AppointmentRepository();         
+    }
    
-   /**
+    /**
     * Gets all the appointments
     * @return ArrayList<Appointment>
     */
-   public List<AppointmentModel> getAppointments(){
-       return apointmentRepo.getAppointmentModels();
-   }
-  
-
+    public List<AppointmentModel> getAppointments(){
+        List<AppointmentModel> appointmentModels = new ArrayList<>();
+        List<Appointment> appointments = this.apointmentRepo.get();
+        
+        for(Appointment appointment : appointments){
+            appointmentModels.add(new AppointmentModel(appointment));
+        }
+        
+        return appointmentModels;
+    }
     
-    public AppointmentModel getById(String appointmentId)
-    {      
-        return apointmentRepo.getAppointmentModelById(appointmentId);
-    }    
-
+    public AppointmentModel getAppointmentById(String appointmentId) {      
+        return new AppointmentModel(apointmentRepo.getById(appointmentId));
+    }
 }

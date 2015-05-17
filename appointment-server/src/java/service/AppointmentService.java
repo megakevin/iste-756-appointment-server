@@ -41,7 +41,6 @@ public class AppointmentService {
     public AppointmentService() 
     {
         this.appointmentManager = new AppointmentManager();
-
     }
 
     /**
@@ -58,9 +57,9 @@ public class AppointmentService {
     @GET
     @Path("{appointmentId}")
     @Produces({MediaType.APPLICATION_JSON}) 
-    public AppointmentModel getByAppointmentId(@PathParam("appointmentId") String appointmentId)
+    public AppointmentModel get(@PathParam("appointmentId") String appointmentId)
     {    
-        return appointmentManager.getById(appointmentId);
+        return appointmentManager.getAppointmentById(appointmentId);
     }
 
     /**

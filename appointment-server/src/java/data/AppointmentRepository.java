@@ -24,24 +24,13 @@ public class AppointmentRepository extends BaseRepository<Appointment>{
      //   this.db.initialLoad("LAMS");
     }
     
+    @Override
     public List<Appointment> get(){
         return super.get();
     }
-    
-    /**
-     * Retrieves all the appointments
-     * @return 
-     */
-    public List<AppointmentModel> getAppointmentModels(){
-        List<AppointmentModel> appointmentModels = new ArrayList<>();
-        List<Appointment> appointments = super.get();
-        for(Appointment appointment : appointments){
-            appointmentModels.add(new AppointmentModel(appointment));
-        }
-        return appointmentModels;
-    }
-    
-    public AppointmentModel getAppointmentModelById(String appointmentId){
-        return new AppointmentModel(super.getById(appointmentId));
+
+    @Override
+    public Appointment getById(String appointmentId){
+        return super.getById(appointmentId);
     }
 }
