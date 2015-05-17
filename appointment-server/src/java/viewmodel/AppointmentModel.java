@@ -23,7 +23,10 @@ public class AppointmentModel  {
     
     public AppointmentModel(){}
     
-   
+   /**
+    * This constructor takes an Appointment object 
+    * @param appointment 
+    */
     public AppointmentModel(Appointment appointment){
         this.id = appointment.getId();
         this.appointmentDate = appointment.getApptdate();
