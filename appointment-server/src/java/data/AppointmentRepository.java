@@ -15,15 +15,7 @@ import viewmodel.AppointmentModel;
  * @author kevin
  */
 public class AppointmentRepository extends BaseRepository<Appointment>{
-    
-    private IComponentsData db;
-    
-    public AppointmentRepository()
-    {
-        this.db = new DB();
-     //   this.db.initialLoad("LAMS");
-    }
-    
+        
     @Override
     public List<Appointment> get(){
         return super.get();
