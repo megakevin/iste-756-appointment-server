@@ -8,6 +8,7 @@ package domain;
 import components.data.*;
 
 import data.AppointmentRepository;
+import java.util.List;
 
 /**
  *
@@ -22,7 +23,7 @@ public class AppointmentManager {
     }
     
     public Appointment getById(String appointmentId)
-    {
-        return this.appointmentRepository.getById(appointmentId);
+    {      
+        return this.appointmentRepository.getByIdReal(appointmentId);
     }    
 }

@@ -15,8 +15,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 
 import components.data.Appointment;
+import components.data.DB;
+import components.data.IComponentsData;
 
 import domain.AppointmentManager;
+import java.util.List;
 
 /**
  * REST Web Service
@@ -53,9 +56,9 @@ public class AppointmentService {
     @Path("appointment/{appointmentId}")
     @GET
     @Produces("application/json")
-    public Appointment getByAppointmentId(@PathParam("appointmentId") String appointmentId)
-    {
-        return this.appointmentManager.getById(appointmentId);
+    public String getByAppointmentId(@PathParam("appointmentId") String appointmentId)
+    {       
+        return this.appointmentManager.getById(appointmentId).toString();
     }
 
     /**

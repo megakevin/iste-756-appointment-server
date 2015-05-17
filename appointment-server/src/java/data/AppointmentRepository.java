@@ -8,17 +8,19 @@ package data;
 import java.util.*;
 import java.text.*;
 import components.data.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  *
  * @author kevin
  */
 public class AppointmentRepository {
+    
+    private IComponentsData db;
+    
     public AppointmentRepository()
     {
-        
+        this.db = new DB();
+        this.db.initialLoad("LAMS");
     }
     
     public Appointment getById(String appointmentId)
@@ -40,11 +42,7 @@ public class AppointmentRepository {
     
     public Appointment getByIdReal(String appointmentId)
     {
-        IComponentsData db = new DB();
-
-        db.initialLoad("LAMS");
-
-        List<Object> objs = db.getData("Appointment", "");
+        List<Object> objs = db.getData("Appointment", "id='" + appointmentId + "'");
 
         Appointment appointmentToReturn = null;
 
@@ -53,6 +51,6 @@ public class AppointmentRepository {
             appointmentToReturn = (Appointment)obj;
         }
 
-        return appointmentToReturn;
+        return appointmentToReturn;//.toString();
     }
 }
