@@ -4,11 +4,30 @@
  * and open the template in the editor.
  */
 package domain;
-
+import data.AppointmentRepository;
+import java.util.*;
+import components.data.Appointment;
+import viewmodel.AppointmentModel;
 /**
  *
  * @author kevin
  */
 public class AppointmentManager {
-    
+   private AppointmentRepository apointmentRepo; 
+   
+   /**
+    * Default constructor. It handle the initialization of the appointment repository
+    */
+   public AppointmentManager(){
+       apointmentRepo = new AppointmentRepository();               
+   }
+   
+   /**
+    * Gets all the appointments
+    * @return ArrayList<Appointment>
+    */
+   public ArrayList<AppointmentModel> getAppointments(){
+       return apointmentRepo.get();
+   }
+   
 }
