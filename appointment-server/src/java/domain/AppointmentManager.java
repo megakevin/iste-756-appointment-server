@@ -50,4 +50,9 @@ public class AppointmentManager {
     public AppointmentModel getAppointmentById(String appointmentId) {      
         return new AppointmentModel(apointmentRepo.getById(appointmentId));
     }
+
+    public boolean save(String inJSON) {
+        Appointment appointment = new Appointment();
+        return apointmentRepo.save(appointment);
+    }
 }
