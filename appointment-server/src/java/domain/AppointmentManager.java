@@ -38,16 +38,12 @@ public class AppointmentManager {
    public List<AppointmentModel> getAppointments(){
        return apointmentRepo.getAppointmentModels();
    }
-   
+  
 
     
-    private AppointmentRepository appointmentRepository;
-    
-
-    
-    public Appointment getById(String appointmentId)
+    public AppointmentModel getById(String appointmentId)
     {      
-        return this.appointmentRepository.getByIdReal(appointmentId);
+        return apointmentRepo.getAppointmentModelById(appointmentId);
     }    
 
 }

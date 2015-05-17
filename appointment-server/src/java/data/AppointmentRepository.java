@@ -28,6 +28,10 @@ public class AppointmentRepository extends BaseRepository<Appointment>{
         return super.get();
     }
     
+    /**
+     * Retrieves all the appointments
+     * @return 
+     */
     public List<AppointmentModel> getAppointmentModels(){
         List<AppointmentModel> appointmentModels = new ArrayList<>();
         List<Appointment> appointments = super.get();
@@ -37,6 +41,9 @@ public class AppointmentRepository extends BaseRepository<Appointment>{
         return appointmentModels;
     }
     
+
+    
+    @Override
     public Appointment getById(String appointmentId)
     {
         try
@@ -52,6 +59,10 @@ public class AppointmentRepository extends BaseRepository<Appointment>{
         {
             return null;
         }
+    }
+    
+    public AppointmentModel getAppointmentModelById(String appointmentId){
+        return new AppointmentModel(super.getById(appointmentId));
     }
     
     public Appointment getByIdReal(String appointmentId)

@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.AppointmentService.class);
         resources.add(service.PatientService.class);
         resources.add(service.PhlebotomistService.class);
+        resources.add(service.PhysicianService.class);
     }
     
 }

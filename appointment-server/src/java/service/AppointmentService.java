@@ -55,12 +55,12 @@ public class AppointmentService {
         return appointments;
     }
     
-    @Path("appointment/{appointmentId}")
     @GET
-    @Produces("application/json")
-    public String getByAppointmentId(@PathParam("appointmentId") String appointmentId)
-    {       
-        return this.appointmentManager.getById(appointmentId).toString();
+    @Path("{appointmentId}")
+    @Produces({MediaType.APPLICATION_JSON}) 
+    public AppointmentModel getByAppointmentId(@PathParam("appointmentId") String appointmentId)
+    {    
+        return appointmentManager.getById(appointmentId);
     }
 
     /**
