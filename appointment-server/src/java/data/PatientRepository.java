@@ -24,11 +24,11 @@ public class PatientRepository extends BaseRepository<Patient> implements IRepos
      * @param patiendId String
      * @return Patient
      */
-    public Patient getById(String patiendId){
+    public Patient getById(String patiendId) {
         return super.getById(patiendId);
     }
     
     public boolean save(Patient patientToSave) {
-        return super.save(patientToSave);
+        return super.update(patientToSave);
     }
 }
