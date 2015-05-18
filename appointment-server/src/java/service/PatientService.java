@@ -71,7 +71,36 @@ public class PatientService {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON}) 
     public Patient post(Patient patient){
+        /*
+        this will work sending JSON like this:
+        
+        {  
+            "address":"31 Westbrook Drive",
+            "dateofbirth":"1959-09-22T00:00:00-04:00",
+            "id":"210",
+            "insurance":"Y",
+            "name":"Tom Thumb",
+            "physician":
+            {  
+                "id":"10",
+                "name":"Dr. Howard"
+            }
+        }
+        
+        This is identical to the JSON that GET returns. woot.
+        
+        */
         //TODO: implements save
-        return patient;
+       
+        Patient patientToReturn = new Patient(
+                patient.getId(),
+                patient.getName(), 
+                patient.getAddress(), 
+                patient.getInsurance(), 
+                patient.getDateofbirth());
+        
+        patientToReturn.setPhysician(patient.getPhysician());
+        
+        return patientToReturn;
     }
 }
