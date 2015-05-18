@@ -57,7 +57,7 @@ public abstract class BaseRepository<T> implements IRepository<T> {
 
     @Override
     public boolean save(T data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.db.addData(data);
     }
 
     @Override

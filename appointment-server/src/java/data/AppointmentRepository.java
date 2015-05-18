@@ -14,20 +14,4 @@ import viewmodel.AppointmentModel;
  *
  * @author kevin
  */
-public class AppointmentRepository extends BaseRepository<Appointment>{
-        
-    @Override
-    public List<Appointment> get(){
-        return super.get();
-    }
-
-    @Override
-    public Appointment getById(String appointmentId){
-        return super.getById(appointmentId);
-    }
-
-    @Override
-    public boolean save(Appointment data) {
-        return super.save(data);
-    }
-}
+public class AppointmentRepository extends BaseRepository<Appointment> { }

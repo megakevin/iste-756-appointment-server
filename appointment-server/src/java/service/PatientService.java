@@ -64,15 +64,7 @@ public class PatientService {
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON}) 
-    public Patient put(Patient patient) {
-        //TODO: implement
-        return patient;
-    }
-    
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON}) 
-    public OperationResultModel post(Patient patient){
+    public OperationResultModel put(Patient patient) {
         /*
         this will work sending JSON like this:
         
@@ -92,5 +84,12 @@ public class PatientService {
         This is identical to the JSON that GET returns. woot.
         */
         return this.patientManager.updatePatient(patient);
+    }
+    
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON}) 
+    public OperationResultModel post(Patient patient){
+        return this.patientManager.savePatient(patient);
     }
 }
