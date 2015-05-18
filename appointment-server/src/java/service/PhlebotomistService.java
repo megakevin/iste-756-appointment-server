@@ -2,7 +2,7 @@ package service;
 
 import javax.ws.rs.Path;
 import components.data.Phlebotomist;
-import domain.PatientManager;
+import domain.PhlebotomistManager;
 /**
  * REST Web Service
  *
