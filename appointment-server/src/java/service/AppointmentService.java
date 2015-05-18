@@ -5,6 +5,7 @@
  */
 package service;
 
+import components.data.Appointment;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -21,6 +22,7 @@ import viewmodel.AppointmentModel;
 
 import domain.AppointmentManager;
 import java.util.List;
+import viewmodel.AppointmentPostModel;
 
 /**
  * REST Web Service
@@ -74,9 +76,9 @@ public class AppointmentService {
     }
     
     @POST
-    @Consumes("application/json")
-    @Produces("application/json")
-    public Boolean post(String inJSON) {
-        return appointmentManager.save(inJSON);
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Appointment post(AppointmentPostModel appointmentPost) {
+        return appointmentManager.save(appointmentPost);
     }
 }
