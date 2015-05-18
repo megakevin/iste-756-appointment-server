@@ -1,4 +1,6 @@
-
+/**
+ * This base repository provides an abstraction for the data layer. It also a wrapper for the provided data layer.
+ */
 package data;
 import components.data.IComponentsData;
 import components.data.DB;
@@ -30,11 +32,28 @@ public abstract class BaseRepository<T> implements IRepository<T> {
     
     /**
      * Gets all the records of a given type from the database.
-     * @return 
+     * @return List<T>
      */
+    @Override
     public List<T> get(){
         List<T> result = new ArrayList<>();
         List<Object> objs = db.getData(className, "");
+        for(Object obj: objs){
+            result.add((T)obj);
+        }
+        return result;
+    }
+    
+    /**
+     * Retrieves data that match a given condition
+     * @param condition String
+     * @param value String
+     * @return List<T>
+     */
+    @Override
+    public List<T> get(String condition, String value){
+        List<T> result = new ArrayList<>();
+        List<Object> objs = db.getData(className, String.format("%s='%s'",condition, value));
         for(Object obj: objs){
             result.add((T)obj);
         }

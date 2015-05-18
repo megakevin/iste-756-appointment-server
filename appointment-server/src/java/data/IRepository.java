@@ -10,4 +10,5 @@ public interface IRepository<T> {
     T getById(String id);
     boolean save(T data);
     boolean update(T data);
+    List<T> get(String condition, String value);
 }
