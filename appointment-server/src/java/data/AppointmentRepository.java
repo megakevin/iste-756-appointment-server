@@ -25,4 +25,9 @@ public class AppointmentRepository extends BaseRepository<Appointment>{
     public Appointment getById(String appointmentId){
         return super.getById(appointmentId);
     }
+
+    @Override
+    public boolean save(Appointment data) {
+        return super.save(data);
+    }
 }
