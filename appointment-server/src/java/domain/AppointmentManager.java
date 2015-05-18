@@ -16,6 +16,11 @@ import components.data.*;
 import data.AppointmentRepository;
 import data.IRepository;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.json.simple.parser.*;
+import org.json.simple.*;
 
 
 /**
@@ -51,8 +56,36 @@ public class AppointmentManager {
         return new AppointmentModel(apointmentRepo.getById(appointmentId));
     }
 
-    public boolean save(String inJSON) {
+    public Boolean save(String inJSON) {
         Appointment appointment = new Appointment();
-        return apointmentRepo.save(appointment);
+        
+        IComponentsData db = new DB();
+        //db.initialLoad("LAMS");
+        JSONObject json;
+        try {
+            json = (JSONObject)new JSONParser().parse(inJSON);
+            String patientId = json.get("patientId").toString();
+            Patient patient = (Patient)db.getData("Patient", "id='210'").get(0);
+
+            Appointment newAppt = new Appointment("800",java.sql.Date.valueOf("2009-09-01"),java.sql.Time.valueOf("10:15:00"));
+            //extra steps here due to persistence api and join, need to create objects in list
+            List<AppointmentLabTest> tests = new ArrayList<>();
+            AppointmentLabTest test = new AppointmentLabTest("800","86900","292.9");
+            test.setDiagnosis((Diagnosis)db.getData("Diagnosis", "code='292.9'").get(0));
+            test.setLabTest((LabTest)db.getData("LabTest","id='86900'").get(0));
+            tests.add(test);
+            newAppt.setAppointmentLabTestCollection(tests);
+            newAppt.setPatientid(patient);
+            //newAppt.setPhlebid(phleb);
+            //newAppt.setPscid(psc);
+            System.out.println(patientId);
+            return true;
+
+            //return apointmentRepo.save(appointment);
+        } 
+        catch (ParseException ex) {
+//            Logger.getLogger(AppointmentManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 }

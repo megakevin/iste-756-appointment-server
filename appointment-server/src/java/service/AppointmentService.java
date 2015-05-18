@@ -76,7 +76,7 @@ public class AppointmentService {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public boolean post(String inJSON) {
+    public Boolean post(String inJSON) {
         return appointmentManager.save(inJSON);
     }
 }
