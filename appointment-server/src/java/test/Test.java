@@ -16,8 +16,7 @@ public class Test {
         //AppointmentService s = new AppointmentService();
         //s.getByAppointmentId("123456");
         
-        AppointmentRepository r = new AppointmentRepository();
-        r.getByIdReal("700");     
+           
         
     }
 }
