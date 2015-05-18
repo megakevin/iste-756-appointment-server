@@ -35,8 +35,8 @@ public class PatientManager {
         return patientRepo.getById(patientId);
     }
     
-    public OperationResultModel savePatient(Patient patientToSave)
+    public OperationResultModel updatePatient(Patient patientToSave)
     {
-        return new OperationResultModel(this.patientRepo.save(patientToSave));
+        return new OperationResultModel(this.patientRepo.update(patientToSave));
     }
 }

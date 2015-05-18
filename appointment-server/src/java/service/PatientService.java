@@ -91,6 +91,6 @@ public class PatientService {
         
         This is identical to the JSON that GET returns. woot.
         */
-        return this.patientManager.savePatient(patient);
+        return this.patientManager.updatePatient(patient);
     }
 }
