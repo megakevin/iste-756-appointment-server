@@ -21,6 +21,10 @@ public abstract class BaseManager<T> implements IManager<T>
     public List<T> getEntities(){
         return this.reposiroty.get();
     }
+    
+    public List<T> getEntities(String condition, String value){
+        return this.reposiroty.get(condition, value);
+    }
 
     public T getEntityById(String id){
         return this.reposiroty.getById(id);

@@ -20,6 +20,7 @@ import viewmodel.OperationResultModel;
 public interface IService<T> {
     public List<T> get();
     public T get(String id);
+    public List<T> get(String condition, String value);
     public OperationResultModel put(T entityToUpdate);
     public OperationResultModel post(T entityToSave);    
 }

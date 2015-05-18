@@ -13,6 +13,7 @@ import viewmodel.OperationResultModel;
  */
 public interface IManager<T> {
     public List<T> getEntities();
+    public List<T> getEntities(String condition, String value);
     public T getEntityById(String id);
     public OperationResultModel updateEntity(T entityToUpdate);
     public OperationResultModel saveEntity(T entityToSave);

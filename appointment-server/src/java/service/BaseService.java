@@ -35,6 +35,13 @@ public abstract class BaseService<T> implements IService<T> {
     public List<T> get() {
         return this.manager.getEntities();
     }
+    
+    @GET
+    @Path("{condition}/{value}")
+    @Produces({MediaType.APPLICATION_JSON}) 
+    public List<T> get(@PathParam("condition") String condition, @PathParam("value") String value){
+        return this.manager.getEntities(condition, value);
+    }
 
     @GET
     @Path("{entityId}")
