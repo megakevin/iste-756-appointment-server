@@ -2,6 +2,7 @@ package domain;
 import java.util.List;
 import components.data.Patient;
 import data.PatientRepository;
+import viewmodel.OperationResultModel;
 
 /**
  * This class is used to encapsulate all business logic related to patients
@@ -32,5 +33,10 @@ public class PatientManager {
      */
     public Patient getPatientById(String patientId){
         return patientRepo.getById(patientId);
+    }
+    
+    public OperationResultModel savePatient(Patient patientToSave)
+    {
+        return new OperationResultModel(this.patientRepo.save(patientToSave));
     }
 }

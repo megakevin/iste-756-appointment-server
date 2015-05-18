@@ -10,8 +10,7 @@ import java.util.*;
  * This repository class is used to provide data access to Patient
  * @author sabreu
  */
-public class PatientRepository extends BaseRepository<Patient> implements IRepository<Patient>{
-    
+public class PatientRepository extends BaseRepository<Patient> implements IRepository<Patient> {
     /**
      * Get all the patients from the database.
      * @return List<Patient> 
@@ -27,5 +26,9 @@ public class PatientRepository extends BaseRepository<Patient> implements IRepos
      */
     public Patient getById(String patiendId){
         return super.getById(patiendId);
+    }
+    
+    public boolean save(Patient patientToSave) {
+        return super.save(patientToSave);
     }
 }

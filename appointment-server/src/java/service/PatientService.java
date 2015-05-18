@@ -13,6 +13,8 @@ import domain.PatientManager;
 import java.util.List;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
+
+import viewmodel.OperationResultModel;
 /**
  * REST Web Service
  *
@@ -70,7 +72,7 @@ public class PatientService {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON}) 
-    public Patient post(Patient patient){
+    public OperationResultModel post(Patient patient){
         /*
         this will work sending JSON like this:
         
@@ -88,19 +90,7 @@ public class PatientService {
         }
         
         This is identical to the JSON that GET returns. woot.
-        
         */
-        //TODO: implements save
-       
-        Patient patientToReturn = new Patient(
-                patient.getId(),
-                patient.getName(), 
-                patient.getAddress(), 
-                patient.getInsurance(), 
-                patient.getDateofbirth());
-        
-        patientToReturn.setPhysician(patient.getPhysician());
-        
-        return patientToReturn;
+        return this.patientManager.savePatient(patient);
     }
 }
