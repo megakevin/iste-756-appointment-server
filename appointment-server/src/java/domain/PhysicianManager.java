@@ -1,29 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
-import data.PhysicianRepository;
+
 import components.data.Physician;
-import java.util.List;
+import data.PhysicianRepository;
 /**
- *
+ * This class is used to encapsulate all business logic related to patients
  * @author sabreu
  */
-public class PhysicianManager {
-    private PhysicianRepository physicianRepository;
-    
-    public PhysicianManager(){
-        physicianRepository = new PhysicianRepository();
-    }
-    
-    
-    public List<Physician> getPhysicians(){
-        return physicianRepository.get();
-    }
-    
-    public Physician getPhysicianById(String id){
-        return physicianRepository.getById(id);
+public class PhysicianManager extends BaseManager<Physician> {    
+    /**
+     * Default constructor. It initializes the PatientRepository
+     */
+    public PhysicianManager() {
+        this.reposiroty = new PhysicianRepository();
     }
 }
