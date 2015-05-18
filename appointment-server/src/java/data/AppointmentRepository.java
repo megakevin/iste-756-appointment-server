@@ -5,10 +5,7 @@
  */
 package data;
 
-import java.util.*;
-import java.text.*;
-import components.data.*;
-import viewmodel.AppointmentModel;
+import components.data.Appointment;
 
 /**
  *
