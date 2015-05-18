@@ -72,8 +72,10 @@ public class AppointmentService {
      * @return an HTTP response with content of the updated or created resource.
      */
     @PUT
-    @Consumes("application/json")
-    public void putJson(String content) {
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public OperationResultModel putJson(AppointmentPostModel appointmentPost) {
+        return appointmentManager.update(appointmentPost);
     }
     
     @POST

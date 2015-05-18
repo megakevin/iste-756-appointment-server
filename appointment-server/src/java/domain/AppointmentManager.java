@@ -55,9 +55,8 @@ public class AppointmentManager {
     public AppointmentModel getAppointmentById(String appointmentId) {      
         return new AppointmentModel(appointmentRepo.getById(appointmentId));
     }
-
-    public OperationResultModel save(AppointmentPostModel appointmentPost) {
-        
+    
+    private Appointment generateAppointmentObject(AppointmentPostModel appointmentPost){
         IComponentsData db = new DB();
         //db.initialLoad("LAMS");
         Appointment newAppt = new Appointment(
@@ -84,7 +83,15 @@ public class AppointmentManager {
         newAppt.setPhlebid(phleb);
         newAppt.setPscid(psc);
         
-        return new OperationResultModel(this.appointmentRepo.save(newAppt));
+        return newAppt;
+    }
+    public OperationResultModel save(AppointmentPostModel appointmentPost) {                    
+        return new OperationResultModel(this.appointmentRepo.save(generateAppointmentObject(appointmentPost)));
+
+    }
+    
+    public OperationResultModel update(AppointmentPostModel appointmentPost) {                 
+        return new OperationResultModel(this.appointmentRepo.update(generateAppointmentObject(appointmentPost)));
 
     }
 }
