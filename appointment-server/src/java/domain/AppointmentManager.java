@@ -16,6 +16,10 @@ import components.data.*;
 import data.AppointmentRepository;
 import data.IRepository;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import viewmodel.AppointmentPostModel;
+import viewmodel.AppointmentLabTestViewModel;
 
 
 /**
@@ -51,8 +55,35 @@ public class AppointmentManager {
         return new AppointmentModel(apointmentRepo.getById(appointmentId));
     }
 
-    public boolean save(String inJSON) {
-        Appointment appointment = new Appointment();
-        return apointmentRepo.save(appointment);
+    public Appointment save(AppointmentPostModel appointmentPost) {
+        
+        IComponentsData db = new DB();
+        //db.initialLoad("LAMS");
+        Appointment newAppt = new Appointment(
+                    "new id",
+                    appointmentPost.getApptDate(),
+                    appointmentPost.getApptTime()
+            );
+        
+        Patient patient = (Patient)db.getData("Patient", "id='" + appointmentPost.getPatientId() + "'").get(0);
+        PSC psc = (PSC)db.getData("PSC", "id='" + appointmentPost.getPscId()+ "'").get(0);
+        Phlebotomist phleb = (Phlebotomist)db.getData("Phlebotomist", "id='" + appointmentPost.getPhlebId() + "'").get(0);
+        
+        List<AppointmentLabTest> tests = new ArrayList<>();
+        
+        for ( AppointmentLabTestViewModel a : appointmentPost.getAppointmentLabTestCollection()) {
+            AppointmentLabTest test = new AppointmentLabTest("new id",a.getLabTestId(),a.getDiagnosisCode());
+            test.setDiagnosis((Diagnosis)db.getData("Diagnosis", "code='"+ a.getDiagnosisCode() + "'").get(0));
+            test.setLabTest((LabTest)db.getData("LabTest","id='" + a.getLabTestId() + "'").get(0));
+            tests.add(test);
+        }
+            
+        newAppt.setAppointmentLabTestCollection(tests);
+        newAppt.setPatientid(patient);
+        newAppt.setPhlebid(phleb);
+        newAppt.setPscid(psc);
+        
+        return newAppt;
+
     }
 }
