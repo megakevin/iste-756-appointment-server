@@ -23,6 +23,7 @@ import viewmodel.AppointmentModel;
 import domain.AppointmentManager;
 import java.util.List;
 import viewmodel.AppointmentPostModel;
+import viewmodel.OperationResultModel;
 
 /**
  * REST Web Service
@@ -78,7 +79,7 @@ public class AppointmentService {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Appointment post(AppointmentPostModel appointmentPost) {
+    public OperationResultModel post(AppointmentPostModel appointmentPost) {
         return appointmentManager.save(appointmentPost);
     }
 }

@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import viewmodel.AppointmentPostModel;
 import viewmodel.AppointmentLabTestViewModel;
+import viewmodel.OperationResultModel;
 
 
 /**
@@ -27,13 +28,13 @@ import viewmodel.AppointmentLabTestViewModel;
  * @author kevin
  */
 public class AppointmentManager {
-    private IRepository<Appointment> apointmentRepo; 
+    private IRepository<Appointment> appointmentRepo; 
    
     /**
     * Default constructor. It handle the initialization of the appointment repository
     */
     public AppointmentManager(){
-        apointmentRepo = new AppointmentRepository();         
+        appointmentRepo = new AppointmentRepository();         
     }
    
     /**
@@ -42,7 +43,7 @@ public class AppointmentManager {
     */
     public List<AppointmentModel> getAppointments(){
         List<AppointmentModel> appointmentModels = new ArrayList<>();
-        List<Appointment> appointments = this.apointmentRepo.get();
+        List<Appointment> appointments = this.appointmentRepo.get();
         
         for(Appointment appointment : appointments){
             appointmentModels.add(new AppointmentModel(appointment));
@@ -52,15 +53,15 @@ public class AppointmentManager {
     }
     
     public AppointmentModel getAppointmentById(String appointmentId) {      
-        return new AppointmentModel(apointmentRepo.getById(appointmentId));
+        return new AppointmentModel(appointmentRepo.getById(appointmentId));
     }
 
-    public Appointment save(AppointmentPostModel appointmentPost) {
+    public OperationResultModel save(AppointmentPostModel appointmentPost) {
         
         IComponentsData db = new DB();
         //db.initialLoad("LAMS");
         Appointment newAppt = new Appointment(
-                    "new id",
+                    "12001",
                     appointmentPost.getApptDate(),
                     appointmentPost.getApptTime()
             );
@@ -72,7 +73,7 @@ public class AppointmentManager {
         List<AppointmentLabTest> tests = new ArrayList<>();
         
         for ( AppointmentLabTestViewModel a : appointmentPost.getAppointmentLabTestCollection()) {
-            AppointmentLabTest test = new AppointmentLabTest("new id",a.getLabTestId(),a.getDiagnosisCode());
+            AppointmentLabTest test = new AppointmentLabTest("12001",a.getLabTestId(),a.getDiagnosisCode());
             test.setDiagnosis((Diagnosis)db.getData("Diagnosis", "code='"+ a.getDiagnosisCode() + "'").get(0));
             test.setLabTest((LabTest)db.getData("LabTest","id='" + a.getLabTestId() + "'").get(0));
             tests.add(test);
@@ -83,7 +84,7 @@ public class AppointmentManager {
         newAppt.setPhlebid(phleb);
         newAppt.setPscid(psc);
         
-        return newAppt;
+        return new OperationResultModel(this.appointmentRepo.save(newAppt));
 
     }
 }
