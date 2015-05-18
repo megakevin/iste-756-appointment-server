@@ -1,37 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
-import data.PhlebotomistRepository;
+
 import components.data.Phlebotomist;
-import java.util.List;
+import data.PhlebotomistRepository;
 /**
- *
+ * This class is used to encapsulate all business logic related to patients
  * @author sabreu
  */
-public class PhlebotomistManager {
-    private PhlebotomistRepository phlebotomistRepository;
-    
-    public PhlebotomistManager(){
-        phlebotomistRepository = new PhlebotomistRepository();
-    }
-    
+public class PhlebotomistManager extends BaseManager<Phlebotomist> {    
     /**
-     * Retrieves all the Phlebotomists
-     * @return List<Phlebotomist> 
+     * Default constructor. It initializes the PatientRepository
      */
-    public List<Phlebotomist> getPhlebotomists(){
-        return phlebotomistRepository.get();
-    }
-    
-    /**
-     * Retrieves the phlobotomist that match the current id
-     * @param id String
-     * @return Phlebotomist
-     */
-    public Phlebotomist getPhlebotomistById(String id){
-        return phlebotomistRepository.getById(id);
+    public PhlebotomistManager() {
+        this.reposiroty = new PhlebotomistRepository();
     }
 }
