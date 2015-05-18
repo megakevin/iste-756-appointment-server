@@ -74,7 +74,7 @@ public class AppointmentService {
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public OperationResultModel putJson(AppointmentPostModel appointmentPost) {
+    public OperationResultModel put(AppointmentPostModel appointmentPost) {
         return appointmentManager.update(appointmentPost);
     }
     

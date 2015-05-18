@@ -59,8 +59,13 @@ public class AppointmentManager {
     private Appointment generateAppointmentObject(AppointmentPostModel appointmentPost){
         IComponentsData db = new DB();
         //db.initialLoad("LAMS");
+        String id = appointmentPost.getId();
+        
+        if(id.isEmpty()) {
+            //code
+        }
         Appointment newAppt = new Appointment(
-                    "12001",
+                    id,
                     appointmentPost.getApptDate(),
                     appointmentPost.getApptTime()
             );

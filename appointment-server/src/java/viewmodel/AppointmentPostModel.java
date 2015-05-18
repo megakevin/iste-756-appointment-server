@@ -17,6 +17,7 @@ import java.util.*;
 public class AppointmentPostModel {
     private Date apptDate;
     private Time apptTime;
+    private String id; 
     private String patientId;
     private String pscId;
     private String phlebId;
@@ -31,6 +32,15 @@ public class AppointmentPostModel {
 
     public void setApptDate(Date apptDate) {
         this.apptDate = apptDate;
+    }
+    
+    public void setId(String id) {
+        if(!id.isEmpty()) this.id = id;
+        else this.id = "";
+    }
+    
+    public String getId() {
+        return id;
     }
 
     public Time getApptTime() {
