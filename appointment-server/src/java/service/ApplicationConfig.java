@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(service.AppointmentService.class);
+        resources.add(service.CrossOriginResourceSharingFilter.class);
         resources.add(service.DiagnosisService.class);
         resources.add(service.LabTestService.class);
         resources.add(service.PatientService.class);
