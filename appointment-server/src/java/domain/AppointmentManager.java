@@ -15,6 +15,8 @@ import components.data.*;
 
 import data.AppointmentRepository;
 import data.IRepository;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +31,8 @@ import viewmodel.OperationResultModel;
  */
 public class AppointmentManager {
     private AppointmentRepository appointmentRepo; 
-   
+    private  final String LOW_VALID_HOUR = "08:00:00";
+    private  final String HIGH_VALID_HOUR = "17:00:00";
     /**
     * Default constructor. It handle the initialization of the appointment repository
     */
@@ -90,13 +93,57 @@ public class AppointmentManager {
         
         return newAppt;
     }
-    public OperationResultModel save(AppointmentPostModel appointmentPost) {                    
-        return new OperationResultModel(this.appointmentRepo.save(generateAppointmentObject(appointmentPost)));
+    public OperationResultModel save(AppointmentPostModel appointmentPost) {  
+        Appointment appointment = generateAppointmentObject(appointmentPost);
+        
+        if(validator(appointment)) {
+            return new OperationResultModel(this.appointmentRepo.save(appointment));
+        }
+        else {
+            return new OperationResultModel(false, "Not between 8 and 5", 919191);
+        }
+        
 
     }
     
-    public OperationResultModel update(AppointmentPostModel appointmentPost) {                 
-        return new OperationResultModel(this.appointmentRepo.update(generateAppointmentObject(appointmentPost)));
-
+    public OperationResultModel update(AppointmentPostModel appointmentPost) {
+        Appointment appointment = generateAppointmentObject(appointmentPost);
+        
+        if(validator(appointment)) {
+            return new OperationResultModel(this.appointmentRepo.update(appointment));
+        }
+        else {
+            return new OperationResultModel(false, "Not between 8 and 5", 919191);
+        }
     }
+    
+    private boolean validator(Appointment appt){
+        
+        Date openingHour = castDate(LOW_VALID_HOUR, "HH:mm:ss");
+        Date closingHour = castDate(HIGH_VALID_HOUR, "HH:mm:ss");
+        
+        if(appt.getAppttime().after(closingHour) || appt.getAppttime().before(openingHour)) {
+            return false;
+        }
+        
+        Phlebotomist phl = appt.getPhlebid();
+        List<Appointment> apptList= phl.getAppointmentCollection();
+        
+        return true; 
+    }
+    
+    private Date castDate(String date,String format)
+   {
+      DateFormat dateFormat = new SimpleDateFormat(format);
+      Date castedDate = null;
+      try
+      {   
+         castedDate = dateFormat.parse(date);         
+      }
+      catch(Exception pe)
+      {
+         pe.printStackTrace();
+      }
+      return castedDate;
+   }
 }
