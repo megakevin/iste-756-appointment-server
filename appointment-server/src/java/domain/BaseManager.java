@@ -24,7 +24,6 @@ public abstract class BaseManager<T> implements IManager<T>
         return this.reposiroty.get();
     }
     
-    @Override
     public List<T> getEntities(String condition, String value){
         return this.reposiroty.get(condition, value);
     }

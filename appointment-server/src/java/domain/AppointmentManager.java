@@ -15,11 +15,14 @@ import components.data.*;
 
 import data.AppointmentRepository;
 import data.IRepository;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import viewmodel.AppointmentPostModel;
 import viewmodel.AppointmentLabTestViewModel;
+import viewmodel.OperationResultModel;
 
 
 /**
@@ -27,13 +30,14 @@ import viewmodel.AppointmentLabTestViewModel;
  * @author kevin
  */
 public class AppointmentManager {
-    private IRepository<Appointment> apointmentRepo; 
-   
+    private AppointmentRepository appointmentRepo; 
+    private  final String LOW_VALID_HOUR = "08:00:00";
+    private  final String HIGH_VALID_HOUR = "17:00:00";
     /**
     * Default constructor. It handle the initialization of the appointment repository
     */
     public AppointmentManager(){
-        apointmentRepo = new AppointmentRepository();         
+        appointmentRepo = new AppointmentRepository();         
     }
    
     /**
@@ -42,7 +46,7 @@ public class AppointmentManager {
     */
     public List<AppointmentModel> getAppointments(){
         List<AppointmentModel> appointmentModels = new ArrayList<>();
-        List<Appointment> appointments = this.apointmentRepo.get();
+        List<Appointment> appointments = this.appointmentRepo.get();
         
         for(Appointment appointment : appointments){
             appointmentModels.add(new AppointmentModel(appointment));
@@ -52,15 +56,19 @@ public class AppointmentManager {
     }
     
     public AppointmentModel getAppointmentById(String appointmentId) {      
-        return new AppointmentModel(apointmentRepo.getById(appointmentId));
+        return new AppointmentModel(appointmentRepo.getById(appointmentId));
     }
-
-    public Appointment save(AppointmentPostModel appointmentPost) {
-        
+    
+    private Appointment generateAppointmentObject(AppointmentPostModel appointmentPost){
         IComponentsData db = new DB();
         //db.initialLoad("LAMS");
+        String id = appointmentPost.getId();
+        
+        if(id == null || id.isEmpty()) {
+            id = appointmentRepo.generateNewId();
+        }
         Appointment newAppt = new Appointment(
-                    "new id",
+                    id,
                     appointmentPost.getApptDate(),
                     appointmentPost.getApptTime()
             );
@@ -72,7 +80,7 @@ public class AppointmentManager {
         List<AppointmentLabTest> tests = new ArrayList<>();
         
         for ( AppointmentLabTestViewModel a : appointmentPost.getAppointmentLabTestCollection()) {
-            AppointmentLabTest test = new AppointmentLabTest("new id",a.getLabTestId(),a.getDiagnosisCode());
+            AppointmentLabTest test = new AppointmentLabTest(id, a.getLabTestId(), a.getDiagnosisCode());
             test.setDiagnosis((Diagnosis)db.getData("Diagnosis", "code='"+ a.getDiagnosisCode() + "'").get(0));
             test.setLabTest((LabTest)db.getData("LabTest","id='" + a.getLabTestId() + "'").get(0));
             tests.add(test);
@@ -84,6 +92,58 @@ public class AppointmentManager {
         newAppt.setPscid(psc);
         
         return newAppt;
+    }
+    public OperationResultModel save(AppointmentPostModel appointmentPost) {  
+        Appointment appointment = generateAppointmentObject(appointmentPost);
+        
+        if(validator(appointment)) {
+            return new OperationResultModel(this.appointmentRepo.save(appointment));
+        }
+        else {
+            return new OperationResultModel(false, "Not between 8 and 5", 919191);
+        }
+        
 
     }
+    
+    public OperationResultModel update(AppointmentPostModel appointmentPost) {
+        Appointment appointment = generateAppointmentObject(appointmentPost);
+        
+        if(validator(appointment)) {
+            return new OperationResultModel(this.appointmentRepo.update(appointment));
+        }
+        else {
+            return new OperationResultModel(false, "Not between 8 and 5", 919191);
+        }
+    }
+    
+    private boolean validator(Appointment appt){
+        
+        Date openingHour = castDate(LOW_VALID_HOUR, "HH:mm:ss");
+        Date closingHour = castDate(HIGH_VALID_HOUR, "HH:mm:ss");
+        
+        if(appt.getAppttime().after(closingHour) || appt.getAppttime().before(openingHour)) {
+            return false;
+        }
+        
+        Phlebotomist phl = appt.getPhlebid();
+        List<Appointment> apptList= phl.getAppointmentCollection();
+        
+        return true; 
+    }
+    
+    private Date castDate(String date,String format)
+   {
+      DateFormat dateFormat = new SimpleDateFormat(format);
+      Date castedDate = null;
+      try
+      {   
+         castedDate = dateFormat.parse(date);         
+      }
+      catch(Exception pe)
+      {
+         pe.printStackTrace();
+      }
+      return castedDate;
+   }
 }
