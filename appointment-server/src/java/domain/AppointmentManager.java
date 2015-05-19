@@ -28,7 +28,7 @@ import viewmodel.OperationResultModel;
  * @author kevin
  */
 public class AppointmentManager {
-    private IRepository<Appointment> appointmentRepo; 
+    private AppointmentRepository appointmentRepo; 
    
     /**
     * Default constructor. It handle the initialization of the appointment repository
@@ -61,8 +61,8 @@ public class AppointmentManager {
         //db.initialLoad("LAMS");
         String id = appointmentPost.getId();
         
-        if(id.isEmpty()) {
-            //code
+        if(id == null || id.isEmpty()) {
+            id = appointmentRepo.generateNewId();
         }
         Appointment newAppt = new Appointment(
                     id,
@@ -77,7 +77,7 @@ public class AppointmentManager {
         List<AppointmentLabTest> tests = new ArrayList<>();
         
         for ( AppointmentLabTestViewModel a : appointmentPost.getAppointmentLabTestCollection()) {
-            AppointmentLabTest test = new AppointmentLabTest("12001",a.getLabTestId(),a.getDiagnosisCode());
+            AppointmentLabTest test = new AppointmentLabTest(id, a.getLabTestId(), a.getDiagnosisCode());
             test.setDiagnosis((Diagnosis)db.getData("Diagnosis", "code='"+ a.getDiagnosisCode() + "'").get(0));
             test.setLabTest((LabTest)db.getData("LabTest","id='" + a.getLabTestId() + "'").get(0));
             tests.add(test);

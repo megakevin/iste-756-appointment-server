@@ -11,4 +11,20 @@ import components.data.Appointment;
  *
  * @author kevin
  */
-public class AppointmentRepository extends BaseRepository<Appointment> { }
+public class AppointmentRepository extends BaseRepository<Appointment> { 
+
+    public String generateNewId(){
+        int newId = Integer.parseInt(getLastId()) + 1;
+        return Integer.toString(newId);
+    }
+    
+    public String getLastId(){
+        Appointment appt = (Appointment)(db.getData("Appointment", "1=1 order by id desc").get(0));
+        
+        return appt.getId();
+    }
+    
+    public boolean save(Appointment appt) {
+        return db.addData(appt);
+    }
+}
