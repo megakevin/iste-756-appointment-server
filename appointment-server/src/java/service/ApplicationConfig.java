@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.CrossOriginResourceSharingFilter.class);
         resources.add(service.DiagnosisService.class);
         resources.add(service.LabTestService.class);
+        resources.add(service.LookupService.class);
         resources.add(service.PatientService.class);
         resources.add(service.PatientServiceCenterService.class);
         resources.add(service.PhlebotomistService.class);
