@@ -17,6 +17,7 @@ import data.AppointmentRepository;
 import data.IRepository;
 import java.sql.Time;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.function.Predicate;
@@ -35,6 +36,8 @@ public class AppointmentManager {
     private AppointmentRepository appointmentRepo; 
     private  final String LOW_VALID_HOUR = "08:00:00";
     private  final String HIGH_VALID_HOUR = "17:00:00";
+    private  final String EIGTH_TO_FIVE_ERROR = "8to5error";
+    private  final String TIME_SLOT_NOT_AVAILABLE = "apptTimeNotAvailable";
     /**
     * Default constructor. It handle the initialization of the appointment repository
     */
@@ -105,7 +108,7 @@ public class AppointmentManager {
             return new OperationResultModel(this.appointmentRepo.save(appointment));
         }
         else {
-            return new OperationResultModel(false, error, 919191);
+            return new OperationResultModel(false, buildErrorMessage(appointment,error), 919191);
         }
         
 
@@ -113,13 +116,12 @@ public class AppointmentManager {
     
     public OperationResultModel update(AppointmentPostModel appointmentPost) {
         Appointment appointment = generateAppointmentObject(appointmentPost);
-        
         String error = validator(appointment);
         if(error == null) {
             return new OperationResultModel(this.appointmentRepo.update(appointment));
         }
         else {
-            return new OperationResultModel(false, error, 919191);
+            return new OperationResultModel(false, buildErrorMessage(appointment,error), 919191);
         }
     }
     
@@ -129,12 +131,12 @@ public class AppointmentManager {
         Date closingHour = castDate(HIGH_VALID_HOUR, "HH:mm:ss");
         
         if(appt.getAppttime().after(closingHour) || appt.getAppttime().before(openingHour)) {
-            return "Not between 8 and 5";
+            return EIGTH_TO_FIVE_ERROR;
         }
         
         Phlebotomist phl = appt.getPhlebid();
         List<Appointment> apptList= phl.getAppointmentCollection();
-        List<Appointment> apptInDate = new ArrayList<Appointment>();
+        ArrayList<Appointment> apptInDate = new ArrayList<Appointment>();
         
         for(Appointment apptTemp : apptList){
             if(apptTemp.getApptdate().equals(appt.getApptdate())){
@@ -146,13 +148,53 @@ public class AppointmentManager {
         for(Appointment apptTemp : apptInDate){
             if(apptTemp.getPscid().equals(appt.getPscid()) &&
                    intimeRange(appt.getAppttime(), apptTemp.getAppttime(), 15) ){
-               return "Is not more than 15 mins away";
+                return TIME_SLOT_NOT_AVAILABLE;
             } 
-            else if(intimeRange(appt.getAppttime(), apptTemp.getAppttime(), 30)) {
-               return "Is not more than 30 mins away";
+            else if(intimeRange(appt.getAppttime(), apptTemp.getAppttime(), 45)) {
+                return TIME_SLOT_NOT_AVAILABLE;
             }
         }
         return null; 
+    }
+    
+    private String availableAppointmentTime(Appointment appt){
+        String startTime = "8:00";
+        String endTime = "5:00";
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Date d; 
+        
+        try {
+            d = df.parse(startTime);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            
+            d = df.parse(endTime);
+            Calendar limit = Calendar.getInstance();
+            limit.setTime(d);
+            
+            for(int i=0; cal.after(limit) ; i++){
+                Appointment a = new Appointment(
+                                "0",
+                                appt.getApptdate(), 
+                                new java.sql.Time(cal.getTimeInMillis())
+                        );
+                
+                a.setPhlebid(appt.getPhlebid());
+                a.setPscid(appt.getPscid());
+                
+                String error = validator(a);
+                
+                if(error == null) {
+                    return df.format(cal.getTime());
+                }
+                cal.add(Calendar.MINUTE, 15);
+            }
+        } 
+        catch (ParseException ex) {
+            Logger.getLogger(AppointmentManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "No valid Time";
     }
     
     private Date castDate(String date,String format)
@@ -188,5 +230,17 @@ public class AppointmentManager {
         else {
             return false;
         }
+    }
+
+    private String buildErrorMessage(Appointment appt, String error) {
+        switch (error) {
+            case EIGTH_TO_FIVE_ERROR:
+                return "Requested time is not valid. Must be between 8 am and 5 pm";
+            case TIME_SLOT_NOT_AVAILABLE:
+                return "The requested time is not available. The phlebotomist is available at: "
+                        + availableAppointmentTime(appt);
+        }
+        
+        return "Unkown error";
     }
 }
