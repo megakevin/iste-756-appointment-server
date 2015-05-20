@@ -15,8 +15,8 @@ import java.util.*;
  * @author JuanElias
  */
 public class AppointmentPostModel {
-    private Date apptDate;
-    private Time apptTime;
+    private String apptDate;
+    private String apptTime;
     private String id; 
     private String patientId;
     private String pscId;
@@ -26,11 +26,11 @@ public class AppointmentPostModel {
     public AppointmentPostModel() {
     }
 
-    public Date getApptDate() {
+    public String getApptDate() {
         return apptDate;
     }
 
-    public void setApptDate(Date apptDate) {
+    public void setApptDate(String apptDate) {
         this.apptDate = apptDate;
     }
     
@@ -43,11 +43,11 @@ public class AppointmentPostModel {
         return id;
     }
 
-    public Time getApptTime() {
+    public String getApptTime() {
         return apptTime;
     }
 
-    public void setApptTime(Time apptTime) {
+    public void setApptTime(String apptTime) {
         this.apptTime = apptTime;
     }
 
